@@ -71,6 +71,7 @@
               <ul>
                 <SingerRow
                 v-for="(item,index) in singerList"
+                :id="item.id"
                 :key="index"
                   :img="item.picUrl"
                   :singer="item.name"
@@ -84,19 +85,7 @@
           <van-tab title="专辑">
             <div v-if="albums">
               <ul class="albumsList">
-                <li
-                  v-for="(item,index) in albums"
-                  :key="index"
-                >
-                  <img
-                    :src="item.picUrl"
-                    alt=""
-                  >
-                  <div class="tit"><span class="sp1">{{item.name}}</span>
-                    <br>
-                    <span class="sp2">{{item.artist.name}}</span>
-                  </div>
-                </li>
+              <album-list :albums="albums"></album-list>
               </ul>
             </div>
             <div v-else>暂无内容</div>
@@ -131,13 +120,15 @@ import MusicRow from '../components/MusicRow.vue'
 import Hot from '../components/Hot.vue'
 import SpecialArea from '../components/SpecialArea.vue'
 import SingerRow from '@/components/SingerRow.vue'
+import albumList from '@/components/albumList.vue'
 export default {
   components: {
     Nav,
     MusicRow,
     Hot,
     SpecialArea,
-    SingerRow
+    SingerRow,
+    albumList
   },
   data() {
     return {
@@ -249,30 +240,4 @@ export default {
   }
 }
 
-.albumsList {
-  li {
-    padding: 2.8571vw 5.7143vw;
-    img {
-      width: 15%;
-      border-radius: 1%;
-      vertical-align: baseline;
-    }
-    .tit {
-      display: inline-block;
-      margin-left: 2.8571vw;
-
-      .sp1 {
-        display: inline-block;
-        font-size: 4vw;
-        margin: 2.8571vw 0;
-      }
-      .sp2 {
-        display: inline-block;
-
-        font-size: 1.4286vw;
-        color: #bababa;
-      }
-    }
-  }
-}
 </style>

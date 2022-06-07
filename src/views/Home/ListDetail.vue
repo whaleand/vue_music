@@ -1,29 +1,29 @@
 <template>
-  <!-- 歌单详情页 -->
+  <!-- 首页歌单详情页 -->
   <div class="container">
     <NavBackVue title="歌单详情"></NavBackVue>
-  
-    <!-- <div class="desc">
-   <div>
+
+    <div class="desc">
+      <div>
         <div class="listImg">
-        <img
-          v-if="playlist.backgroundCoverUrl"
-          :src="playlist.backgroundCoverUrl"
-          alt=""
-        >
-        <img
-          v-else
-          src="@/assets/logo.png"
-          alt=""
-        >
-      </div>
-      <div class="worddesc">
-        <div class="title">
-          {{playlist.name}}
+          <img
+            v-if="playlist.coverImgUrl"
+            :src="playlist.coverImgUrl"
+            alt=""
+          >
+          <img
+            v-else
+            src="@/assets/logo.png"
+            alt=""
+          >
         </div>
-        <p>{{playlist.description}}</p>
+        <div class="worddesc">
+          <div class="title">
+            {{playlist.name}}
+          </div>
+          <p>{{playlist.description}}</p>
+        </div>
       </div>
-   </div>
       <div class="about">
         <ul>
           <li><img
@@ -40,20 +40,22 @@
             >{{(playlist.shareCount/10000).toFixed(1)}}万</li>
         </ul>
       </div>
-    </div> -->
-    <!-- <div class="musicList">
+    </div>
+    <div class="musicList">
       <MusicRow
         v-for="(item,index) in musicList"
         :key="item.id"
         :id="item.id"
         :song="item.name"
         :desc="item.alia"
-        :singer="item.ar[0].name"
+        :singer="item.ar.map((item)=>{
+          return (item.name)
+        })"
         :image="item.al.picUrl"
         :index="index+1"
       ></MusicRow>
 
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -68,13 +70,32 @@ export default {
   data() {
     return {
       playlist: {},
-      musicList: []
+      musicList: [],
+      singers: []
     }
   },
   methods: {
-   
+    getListDetail() {
+      this.$api.getListDetail({ id: this.$route.params.id }).then(res => {
+        //  console.log(res.privileges);
+        this.playlist = res.playlist
+        // console.log(res);
+        this.musicList = res.playlist.tracks
+        // console.log(this.musicList);
+        // this.musicList.forEach((item)=>{
+        //   item.ar.forEach((item)=>{
+        //     this.singers.push(item.name)
+        //   })
+        // })
+        // this.musicList.ar.forEach((item)=>{
+        //   this.singers.push(item.name)
+        // })
+        // console.log(this.singers);
+      })
+    }
   },
   created() {
+    this.getListDetail()
   }
 }
 </script>

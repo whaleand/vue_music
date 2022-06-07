@@ -19,13 +19,13 @@
     <div class="list">
       <musicItem
         v-for="item in songsList"
-        :key="item.no"
+        :key="item.id"
         :img="item.album.blurPicUrl"
         :song="item.name"
         :singer="item.artists"
         :alias="item.alias[0]"
         :popularity="item.popularity"
-        :id="item.no"
+        :id="item.id"
       ></musicItem>
     </div>
   </div>
@@ -50,7 +50,9 @@ export default {
   methods: {
     async getNewSong() {
       await this.$api.getTopsong({ type: this.type }).then(res => {
-        this.songsList = res.data.slice(0, 10)
+
+        this.songsList = res.data.slice(0, 20)
+        // console.log(this.songsList);
       })
     },
     onChange(val){

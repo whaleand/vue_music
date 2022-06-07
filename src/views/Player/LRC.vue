@@ -10,20 +10,21 @@
 </template>
 
 <script>
-import lrc from './lrc'
 export default {
   props: ['id', 'current'],
   data() {
     return {
-      lrcData: '',
+      lrcData: {},
       timeKet: []
     }
   },
   methods: {
     getLRC() {
       this.$api.getLRC({ id: this.id }).then(res => {
-        this.lrcData = lrc
-        this.filterLRC(this.lrcData)
+        // console.log(res);
+        // this.lrcData = res.lrc.lyric
+        // console.log(this.lrcData);
+        this.filterLRC(res.lrc.lyric)
       })
     },
     filterLRC(lrcData) {
@@ -47,13 +48,13 @@ export default {
         // 得到分
       })
       this.lrcData = lastLy
+      // console.log(this.lrcData);
       // console.log( this.lrcData);
       this.timeKet = Object.keys(this.lrcData)
       // console.log(this.timeKet)
       // this.lrcData.forEach((item)=>{
       //   this.timeKet.push(item.key)
       // })
-      // console.log(this.timeKet);
     },
   },
   watch:{

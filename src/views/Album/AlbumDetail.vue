@@ -1,67 +1,69 @@
 <template>
-  <NavBack></NavBack>
-  <div class="container">
+  <nav-back title="专辑详情"></nav-back>
+  <div
+    class="container"
+    v-if="album"
+  >
     <div class="nav">
       <div class="top">
         <div class="image">
           <img
-            :src="djRadio.picUrl"
+            :src="album.blurPicUrl"
             alt=""
           >
         </div>
         <div class="desc">
-          <div class="name">{{djRadio.name}}</div>
           <div
-            class="dj"
-            v-if="djRadio.dj"
-          >
-            <img
-              :src="djRadio.dj.avatarUrl"
-              alt=""
-            >
-            {{djRadio.dj.nickname}}&nbsp; &nbsp;<i class="iconfont icon-icon_follow"></i>
+            class="name"
+          >{{album.name}}</div>
+          <div class="dj">
+            {{album.artist.name}}&nbsp; &nbsp;<i class="iconfont icon-icon_follow"></i>
           </div>
           <div class="tags">
-            {{djRadio.category}}&nbsp;>
+            发行事间{{album.publishTime}}
+            <p>{{album.description}}</p>
           </div>
         </div>
 
       </div>
-      <div class="mid">
+      <!-- <div class="mid">
         <p>{{djRadio.desc}}</p>
-      </div>
+      </div> -->
       <div class="bottom">
         <div class="share">
           <i class="iconfont icon-fenxiang"></i>
-          {{djRadio.shareCount}}
+          {{album.info.shareCount}}
         </div>
         <div class="comment">
           <i class="iconfont icon-pinglun"></i>
-          {{djRadio.commentCount}}
+          {{album.info.commentCount}}
         </div>
         <div class="like">
           <i class="iconfont icon-shoucang"></i>
           &nbsp;收藏
-          {{p}}
+
         </div>
 
       </div>
 
     </div>
     <div class="guodu">
-      <span>声音<sup>{{commentDatas.length}}</sup></span>
+      <span>歌曲<sup></sup></span>
       <i class="iconfont icon-paixu"></i>
       <i class="iconfont icon-quanxuan"></i>
     </div>
     <ul>
       <MusicItem
-        v-for="item in commentDatas"
-        :key="item.commentId"
-        :id="item.commentId"
-        :song="item.programName"
-        :img="djRadio.picUrl"
-        :alias="item.content"
-        :singer=singer
+        v-for="(item,index) in songs"
+        :index="index+1"
+        :key="item.id"
+        :id="item.id"
+        :song="item.name"
+        :image="item.al.picUrl"
+        :desc="item.alia"
+        :singer="item.ar.map((element)=>{
+          return element.name
+        })"
       >
       </MusicItem>
     </ul>
@@ -70,7 +72,7 @@
 
 <script>
 import NavBack from '@/components/NavBack.vue'
-import MusicItem from '@/components/MusicItem.vue'
+import MusicItem from '@/components/MusicRow.vue'
 export default {
   components: {
     NavBack,
@@ -78,21 +80,20 @@ export default {
   },
   data() {
     return {
-      djRadio: {},
-      commentDatas: [],
-      p: 0,
-      singer:[]
+      album: {},
+      songs: []
+    }
+  },
+  methods: {
+    async getAlbumDetail() {
+      await this.$api.getAlbumDetail({ id: this.$route.params.id }).then(res => {
+        this.album = res.album
+        this.songs = res.songs
+      })
     }
   },
   created() {
-     this.$api.getDjdetail({ rid: this.$route.params.rid }).then(res => {
-      //  console.log(res);
-      this.djRadio = res.data
-      this.commentDatas = this.djRadio.commentDatas
-      const subCount = this.djRadio.subCount
-      this.p = subCount > 10000 && subCount < 100000000 ? (subCount / 10000).toFixed(1) + '万' : (subCount / 100000000).toFixed(1) + '亿'
-      this.singer.push(this.djRadio.dj.nickname)
-    })
+    this.getAlbumDetail()
   }
 }
 </script>
@@ -141,10 +142,17 @@ export default {
         .tags {
           color: white;
           font-size: 3.4286vw;
-          width: fit-content;
           padding: 0.5714vw;
-          border-radius: 1.4286vw;
-          background-color: #868686;
+          p {
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            // width: 300px;
+            // white-space: nowrap;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+          }
         }
       }
     }

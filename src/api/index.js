@@ -9,10 +9,10 @@ const api = {
   getRecommend() {
     return get('/api/recommend/resource')
   },
-  // // 获取歌单详情，用不了
-  // getListDetail(params) {
-  //   return get('/api/playlist/detail', params)
-  // },
+  // 获取歌单详情
+  getListDetail(params) {
+    return get('/api/playlist/detail', params)
+  },
   // 歌曲播放
   getMusic(params) {
     return get('/api/song/url', params)
@@ -61,17 +61,30 @@ const api = {
     return get('/api/search/hot')
   },
 
-  
+
   // 歌手榜
   getTop(params) {
     return get('/api/top/artists', params)
   },
   // // 歌手详情
-  // getSingerDetail(params){
-  //   return get('/api/artist/detail',params)
-  // }
+  getSingerDetail(params) {
+    return get('/api/artist/detail', params)
+  },
+  // 歌手全部歌曲
+  getArtistSongs(params) {
+    return get('/api/artist/songs', params)
+  },
+  // 获取歌手专辑
+  getSingerAlbums(params) {
+    return get('/api/artist/album', params)
+  },
+  // 获取专辑内容
+  getAlbumDetail(params) {
+    return get('/api/album', params)
+  },
+  
   // 获取歌单的类别
-  getsongListCate(){
+  getsongListCate() {
     return get('/api/playlist/hot')
   },
   // 获取网友精选碟歌单
@@ -91,17 +104,17 @@ const api = {
 
   },
   // 新歌速递
-  getTopsong(params){
+  getTopsong(params) {
     // 不支持下拉加载
-    return get('/api/top/song',params)
+    return get('/api/top/song', params)
   },
   // 热门电台
-  getDJ(params){
-    return get('/api/dj/hot',params)
+  getDJ(params) {
+    return get('/api/dj/hot', params)
   },
   // 电台详情
-  getDjdetail(params){
-    return get('/api/dj/detail',params)
+  getDjdetail(params) {
+    return get('/api/dj/detail', params)
   }
 
 }

@@ -5,8 +5,7 @@
       <div class="song">{{$route.params.song}}</div>
       <div
         class="singer"
-        v-if="$route.params.singer"
-      >{{$route.params.singer}}</div>
+      ><span v-for="(item,index) in singers" :key="index">{{item}}</span></div>
     </div>
     <div class="cover">
       <img
@@ -21,7 +20,7 @@
     ></LRC>
     <audio
       ref="player"
-      :src="src"
+      :src="music.url"
       controls
       autoplay
       @play="addEventHandle"
@@ -44,14 +43,16 @@ export default {
     return {
       music: {},
       currentTime: '',
-      src: require('../../assets/王心凌-爱你.mp3')
+      singers:[]
     }
   },
   methods: {
     init() {
-      // this.$api.getMusic({ id: this.$route.params.id }).then(res => {
-      //   this.music = res.data[0]
-      // })
+      this.$api.getMusic({ id: this.$route.params.id }).then(res => {
+        // console.log(res);
+        this.music = res.data[0]
+        // console.log(this.music);
+      })
     },
     addEventHandle() {
       // console.log(this.$refs.player);
@@ -69,6 +70,9 @@ export default {
   },
   mounted() {
     this.init()
+    this.singers=(this.$route.params.singer)
+    // console.log(this.singers);
+    // console.log(decodeURIComponent(this.$route.params.singer));
   }
 }
 </script>

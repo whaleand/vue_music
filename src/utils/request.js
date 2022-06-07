@@ -40,7 +40,7 @@ instance.spread = axios.spread
 // instance.defaults.baseURL = "http://iwenwiki.com";
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-const urlList = ['/api/recommend/resource', '/api/toplist', '/api/personalized/newsong', '/api/playlist/hot', '/api/top/song', '/api/search/hot','/api/dj/detail']
+const urlList = ['/api/recommend/resource', '/api/toplist', '/api/personalized/newsong', '/api/playlist/hot', '/api/top/song', '/api/search/hot','/api/dj/detail','/api/playlist/detail','/api/song/url','/api/artist/detail','/api/album']
 let timer = null
 // 请求拦截和响应拦截
 instance.interceptors.request.use(

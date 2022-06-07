@@ -1,8 +1,13 @@
 <template>
+  <!-- 首页的歌曲行 -->
   <router-link
     class="item"
     tag="div"
-    :to="`/play/${id}/${song}/${singer}/${encodeURIComponent(img)}`"
+    :to="`/play/${id}/${song}/${ singer.map(element => {
+          // singers变成名字的数组
+          // this.singers.push(element.name)
+          return element.name
+        })}/${encodeURIComponent(img)}`"
   >
     <!-- <div class="fengmian">
       <img
@@ -43,7 +48,24 @@
 
 <script>
 export default {
-  props: ['img', 'song', 'singer', 'id', 'alias', 'popularity']
+  props: ['img', 'song', 'singer', 'id', 'alias', 'popularity'],
+  data() {
+    return {}
+  },
+  methods: {
+    // filterSinger(singer) {
+    //   // console.log(singer );
+    //   if (singer instanceof Array) {
+    //   }
+    //   return []
+    // }
+  },
+  mounted() {
+    // console.log(this.singer);
+    this.singer
+    // this.singers=[...this.singers]
+    // console.log(this.singer);
+  }
 }
 </script>
 
@@ -98,11 +120,11 @@ export default {
       }
     }
   }
-  .ic{
+  .ic {
     flex: 1;
     text-align: center;
     height: fit-content;
-    i{
+    i {
       font-size: 4.5714vw;
     }
   }
